@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flood Fill Algorithm</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script>
+      // Get the canvas element and its 2d context
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Initialize the canvas with a white background
+      ctx.fillStyle = 'gray';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Define a function to perform flood fill
+      function floodFill(x, y, targetColor, fillColor) {
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const stack = [[x, y]];
+
+        while (stack.length) {
+          const [curX, curY] = stack.pop();
+          const pixelIndex = (curY * canvas.width + curX) * 4;
+          const [r, g, b, a] = imageData.data.slice(pixelIndex, pixelIndex + 4);
+
+          if (
+            curX >= 0 &&
+            curX < canvas.width &&
+            curY >= 0 &&
+            curY < canvas.height &&
+            r === targetColor[0] &&
+            g === targetColor[1] &&
+            b === targetColor[2] &&
+            a === targetColor[3]
+          ) {
+            ctx.fillStyle = fillColor;
+            ctx.fillRect(curX, curY, 1, 1);
+            imageData.data[pixelIndex] = fillColor[0];
+            imageData.data[pixelIndex + 1] = fillColor[1];
+            imageData.data[pixelIndex + 2] = fillColor[2];
+            imageData.data[pixelIndex + 3] = fillColor[3];
+
+            stack.push([curX + 1, curY]);
+            stack.push([curX - 1, curY]);
+            stack.push([curX, curY + 1]);
+            stack.push([curX, curY - 1]);
+          }
+        }
+
+        ctx.putImageData(imageData, 0, 0);
+      }
+
+      // Add a click event listener to the canvas
+      canvas.addEventListener('click', (e) => {
+        const mouseX = e.clientX - canvas.getBoundingClientRect().left;
+        const mouseY = e.clientY - canvas.getBoundingClientRect().top;
+        const targetColor = ctx.getImageData(mouseX, mouseY, 1, 1).data;
+        const fillColor = [200, 0, 100, 222]; // Red color
+
+        floodFill(mouseX, mouseY, targetColor, fillColor);
+      });
+    </script>
+  </body>
+</html>
