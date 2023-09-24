@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ellipse Drawing</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Function to draw an ellipse using the polynomial method
+      function drawEllipse(x, y, a, b) {
+        const centerX = x + a;
+        const centerY = y + b;
+
+        ctx.beginPath();
+
+        for (let angle = 0; angle < Math.PI * 2; angle += 0.01) {
+          const ellipseX = centerX + a * Math.cos(angle);
+          const ellipseY = centerY + b * Math.sin(angle);
+
+          ctx.lineTo(ellipseX, ellipseY);
+        }
+
+        ctx.closePath();
+        ctx.stroke();
+      }
+
+      // Clear the canvas and draw the ellipse
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawEllipse(200, 200, 100, 50);
+    </script>
+  </body>
+</html>

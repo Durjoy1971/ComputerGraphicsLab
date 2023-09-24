@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ellipse Drawing</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Function to draw an ellipse using the trigonometric method
+      function drawEllipse(x, y, a, b) {
+        const centerX = x + a;
+        const centerY = y + b;
+        const numPoints = 360; // Number of points to create the ellipse
+
+        ctx.beginPath();
+
+        for (let i = 0; i < numPoints; i++) {
+          const angle = (i * 2 * Math.PI) / numPoints;
+          const ellipseX = centerX + a * Math.cos(angle);
+          const ellipseY = centerY + b * Math.sin(angle);
+
+          ctx.lineTo(ellipseX, ellipseY);
+        }
+
+        ctx.closePath();
+        ctx.stroke();
+      }
+
+      // Clear the canvas and draw the ellipse
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawEllipse(200, 200, 100, 50);
+    </script>
+  </body>
+</html>
