@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Boundary Fill Algorithm</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script>
+      // Get the canvas element and its 2d context
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Initialize the canvas with a white background and draw a boundary
+      ctx.fillStyle = 'gray';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = 'yellow';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(50, 50, 300, 300); // Example boundary rectangle
+
+      // Define a function to perform boundary fill
+      function boundaryFill(x, y, fillColor, boundaryColor) {
+        const pixelStack = [[x, y]];
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const width = canvas.width;
+        const height = canvas.height;
+
+        while (pixelStack.length) {
+          const [px, py] = pixelStack.pop();
+          const pixelIndex = (py * width + px) * 4;
+          const [r, g, b, a] = imageData.data.slice(pixelIndex, pixelIndex + 4);
+
+          if (
+            px >= 0 &&
+            px < width &&
+            py >= 0 &&
+            py < height &&
+            r === boundaryColor[0] &&
+            g === boundaryColor[1] &&
+            b === boundaryColor[2] &&
+            a === boundaryColor[3]
+          ) {
+            imageData.data[pixelIndex] = fillColor[0];
+            imageData.data[pixelIndex + 1] = fillColor[1];
+            imageData.data[pixelIndex + 2] = fillColor[2];
+            imageData.data[pixelIndex + 3] = fillColor[3];
+
+            pixelStack.push([px + 1, py]);
+            pixelStack.push([px - 1, py]);
+            pixelStack.push([px, py + 1]);
+            pixelStack.push([px, py - 1]);
+          }
+        }
+
+        ctx.putImageData(imageData, 0, 0);
+      }
+
+      // Add a click event listener to the canvas
+      canvas.addEventListener('click', (e) => {
+        const mouseX = e.clientX - canvas.getBoundingClientRect().left;
+        const mouseY = e.clientY - canvas.getBoundingClientRect().top;
+        const fillColor = [255, 0, 0, 255]; // Fill color (Red)
+        const boundaryColor = [0, 0, 0, 255]; // Boundary color (Black)
+
+        boundaryFill(mouseX, mouseY, fillColor, boundaryColor);
+      });
+    </script>
+  </body>
+</html>
