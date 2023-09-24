@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Outline Font Example</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="200"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Function to draw outlined text
+      function drawOutlinedText(text, x, y, fontSize, fontColor, outlineColor, outlineWidth) {
+        ctx.font = fontSize + 'px Arial';
+        ctx.fillStyle = fontColor;
+        ctx.strokeStyle = outlineColor;
+        ctx.lineWidth = outlineWidth;
+
+        // Draw the outline first
+        ctx.strokeText(text, x, y);
+
+        // Then draw the text on top of the outline
+        ctx.fillText(text, x, y);
+      }
+
+      // Clear the canvas and draw outlined text
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawOutlinedText('HELLO', 50, 100, 40, 'white', 'black', 5);
+    </script>
+  </body>
+</html>

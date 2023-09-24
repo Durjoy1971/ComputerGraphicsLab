@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bitmap Font Example</title>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="200"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Define a simple bitmap font as a 2D array
+        const bitmapFont = [
+            '111101101101111', // A
+            '111101111101111', // B
+            '111100100100111', // C
+            '111101101101111', // D
+            '111100111100111', // E
+            '111100110100100', // F
+        ];
+
+        const charWidth = 5;
+        const charHeight = 5;
+        const spacing = 2;
+
+        function drawText(text, x, y) {
+            let currentX = x;
+
+            for (let i = 0; i < text.length; i++) {
+                const char = text.charAt(i);
+
+                if (char >= 'A' && char <= 'F') {
+                    const charIndex = char.charCodeAt(0) - 'A'.charCodeAt(0);
+
+                    for (let row = 0; row < charHeight; row++) {
+                        for (let col = 0; col < charWidth; col++) {
+                            const pixel = bitmapFont[charIndex].charAt(row * charWidth + col);
+
+                            if (pixel === '1') {
+                                ctx.fillStyle = 'black';
+                                ctx.fillRect(currentX + col, y + row, 1, 1);
+                            }
+                        }
+                    }
+
+                    currentX += charWidth + spacing;
+                }
+            }
+        }
+
+        // Clear the canvas and draw text using the bitmap font
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawText('HELLO', 50, 50);
+    </script>
+</body>
+</html>
