@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Circle Drawing with Midpoint Algorithm</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Function to draw a circle with a filled inner region
+      function drawFilledCircle(x, y, radius) {
+        ctx.beginPath();
+
+        let x0 = radius;
+        let y0 = 0;
+        let err = 0;
+
+        while (x0 >= y0) {
+          // Plot points in all octants
+          plotPoints(x, y, x0, y0);
+
+          if (err <= 0) {
+            y0++;
+            err += 2 * y0 + 1;
+          }
+
+          if (err > 0) {
+            x0--;
+            err -= 2 * x0 + 1;
+          }
+        }
+
+        ctx.fillStyle = 'white'; // Set the fill color to white
+        ctx.fill(); // Fill the inner region with white
+
+        ctx.closePath();
+        ctx.stroke(); // Draw the outline in black
+      }
+
+      // Helper function to plot points in all octants
+      function plotPoints(x, y, x0, y0) {
+        ctx.moveTo(x + x0, y + y0);
+        ctx.lineTo(x - x0, y + y0);
+        ctx.moveTo(x + x0, y - y0);
+        ctx.lineTo(x - x0, y - y0);
+        ctx.moveTo(x + y0, y + x0);
+        ctx.lineTo(x - y0, y + x0);
+        ctx.moveTo(x + y0, y - x0);
+        ctx.lineTo(x - y0, y - x0);
+      }
+
+      // Clear the canvas and draw the filled circle
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawFilledCircle(200, 200, 100);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Line Drawing Using Bresenham's Algorithm</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Function to draw a line using Bresenham's Line Algorithm
+      function drawLine(x1, y1, x2, y2) {
+        ctx.beginPath();
+        ctx.moveTo(x1, y1); // Move to the starting point
+
+        const dx = Math.abs(x2 - x1);
+        const dy = Math.abs(y2 - y1);
+        const sx = x1 < x2 ? 1 : -1; // Determine the x-direction (1 or -1)
+        const sy = y1 < y2 ? 1 : -1; // Determine the y-direction (1 or -1)
+
+        let err = dx - dy;
+
+        while (x1 !== x2 || y1 !== y2) {
+          ctx.lineTo(x1, y1); // Plot the current point
+
+          const e2 = 2 * err;
+
+          if (e2 > -dy) {
+            err -= dy;
+            x1 += sx;
+          }
+
+          if (e2 < dx) {
+            err += dx;
+            y1 += sy;
+          }
+        }
+
+        ctx.lineTo(x2, y2); // Plot the last point
+        ctx.stroke(); // Draw the line
+        ctx.closePath();
+      }
+
+      // Clear the canvas and draw the line using Bresenham's Algorithm
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawLine(50, 50, 80, 80); // Draw a line from (50, 50) to (350, 350)
+    </script>
+  </body>
+</html>

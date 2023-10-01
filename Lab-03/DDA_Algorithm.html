@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Line Drawing Using DDA Algorithm</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Function to draw a line using the DDA algorithm
+      function drawLine(x1, y1, x2, y2) {
+        ctx.beginPath();
+        ctx.moveTo(x1, y1); // Move to the starting point
+
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        const steps = Math.max(Math.abs(dx), Math.abs(dy)); // Determine the number of steps
+
+        const xIncrement = dx / steps; // Calculate the increment in x
+        const yIncrement = dy / steps; // Calculate the increment in y
+
+        let x = x1;
+        let y = y1;
+
+        for (let i = 1; i <= steps; i++) {
+          x += xIncrement;
+          y += yIncrement;
+          ctx.lineTo(Math.round(x), Math.round(y)); // Round to the nearest pixel
+        }
+
+        ctx.stroke(); // Draw the line
+        ctx.closePath();
+      }
+
+      // Clear the canvas and draw the line using DDA
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawLine(50, 50, 150, 150); // Draw a line from (50, 50) to (350, 350)
+    </script>
+  </body>
+</html>

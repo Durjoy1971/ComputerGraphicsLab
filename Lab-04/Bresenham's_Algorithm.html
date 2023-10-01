@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Circle Drawing with Bresenham's Algorithm</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Function to draw a circle using Bresenham's Algorithm
+      function drawCircle(x, y, radius) {
+        let dx = radius;
+        let dy = 0;
+        let err = 0;
+
+        ctx.beginPath();
+
+        while (dx >= dy) {
+          // Plot points in all octants
+          plotPoints(x, y, dx, dy);
+
+          dy++;
+          err += 1 + 2 * dy;
+
+          if (2 * (err - dx) + 1 > 0) {
+            dx--;
+            err += 1 - 2 * dx;
+          }
+        }
+
+        ctx.lineWidth = 2; // Set line width to make the circle thicker
+        ctx.closePath();
+        ctx.stroke();
+      }
+
+      // Helper function to plot points in all octants
+      function plotPoints(x, y, dx, dy) {
+        ctx.moveTo(x + dx, y + dy);
+        ctx.lineTo(x - dx, y + dy);
+        ctx.moveTo(x + dx, y - dy);
+        ctx.lineTo(x - dx, y - dy);
+        ctx.moveTo(x + dy, y + dx);
+        ctx.lineTo(x - dy, y + dx);
+        ctx.moveTo(x + dy, y - dx);
+        ctx.lineTo(x - dy, y - dx);
+      }
+
+      // Clear the canvas and draw the circle
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawCircle(200, 200, 100);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Line Drawing Using Line Equation</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Function to draw a line using the line equation
+      function drawLine(x1, y1, x2, y2) {
+        ctx.beginPath();
+        ctx.moveTo(x1, y1); // Move to the starting point
+
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        
+        if (dx === 0) {
+          // Vertical line, handle separately to avoid division by zero
+          const minY = Math.min(y1, y2);
+          const maxY = Math.max(y1, y2);
+          for (let y = minY; y <= maxY; y++) {
+            ctx.lineTo(x1, y);
+          }
+        } else {
+          const m = dy / dx; // Calculate slope
+          const b = y1 - m * x1; // Calculate y-intercept
+
+          // Determine whether to iterate in x or y direction based on the absolute slope
+          if (Math.abs(dx) >= Math.abs(dy)) {
+            const minX = Math.min(x1, x2);
+            const maxX = Math.max(x1, x2);
+            for (let x = minX; x <= maxX; x++) {
+              const y = m * x + b; // Calculate y using the line equation
+              ctx.lineTo(x, y);
+            }
+          } else {
+            const minY = Math.min(y1, y2);
+            const maxY = Math.max(y1, y2);
+            for (let y = minY; y <= maxY; y++) {
+              const x = (y - b) / m; // Calculate x using the line equation
+              ctx.lineTo(x, y);
+            }
+          }
+        }
+
+        ctx.stroke(); // Draw the line
+        ctx.closePath();
+      }
+
+      // Clear the canvas and draw the line
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawLine(50, 50, 310, 350); // Draw a line from (50, 50) to (350, 350)
+    </script>
+  </body>
+</html>
