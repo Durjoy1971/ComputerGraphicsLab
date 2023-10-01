@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Circle Drawing</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Function to draw a circle using the trigonometric method
+      function drawCircle(x, y, radius) {
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, 2 * Math.PI); // Starting angle: 0, Ending angle: 2 * Math.PI (complete circle)
+        ctx.closePath();
+        ctx.stroke();
+      }
+
+      // Clear the canvas and draw the circle
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawCircle(200, 200, 50);
+    </script>
+  </body>
+</html>
