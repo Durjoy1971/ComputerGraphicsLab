@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Point Scaling Example</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      
+      function drawPoint(x, y, color) {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Function to scale a point about the origin
+      function scalePoint(x, y, scaleX, scaleY) {
+        const newX = x * scaleX;
+        const newY = y * scaleY;
+        return { x: newX, y: newY };
+      }
+
+      // Clear the canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Original point
+      const originalX = 100;
+      const originalY = 100;
+      drawPoint(originalX, originalY, 'blue');
+
+      // Scaling factors
+      const scaleX = 2; 
+      const scaleY = 0.5;
+
+      // Scale the point about the origin
+      const scaledPoint = scalePoint(originalX, originalY, scaleX, scaleY);
+      drawPoint(scaledPoint.x, scaledPoint.y, 'red');
+
+    </script>
+  </body>
+</html>

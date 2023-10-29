@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Point Rotation Example</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Function to draw a point
+      function drawPoint(x, y, color) {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Function to rotate a point about the origin
+      function rotatePoint(x, y, angleInRadians) {
+        const cosTheta = Math.cos(angleInRadians);
+        const sinTheta = Math.sin(angleInRadians);
+
+        const newX = x * cosTheta - y * sinTheta;
+        const newY = x * sinTheta + y * cosTheta;
+
+        return { x: newX, y: newY };
+      }
+
+      // Clear the canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Original point
+      const originalX = 400;
+      const originalY = 50;
+      drawPoint(originalX, originalY, 'blue');
+
+      // Angle of rotation in radians
+      const angleInRadians = Math.PI / 10;
+
+      // Rotate the point
+      const rotatedPoint = rotatePoint(originalX, originalY, angleInRadians);
+      drawPoint(rotatedPoint.x, rotatedPoint.y, 'red');
+
+    </script>
+  </body>
+</html>

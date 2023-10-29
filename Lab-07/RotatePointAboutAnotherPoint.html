@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Point Rotation Example</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Function to draw a point
+      function drawPoint(x, y, color) {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Function to rotate a point about an arbitrary point
+      function rotatePointAboutPoint(x, y, cx, cy, angleInRadians) {
+        const cosTheta = Math.cos(angleInRadians);
+        const sinTheta = Math.sin(angleInRadians);
+
+        const newX = (x - cx) * cosTheta - (y - cy) * sinTheta + cx;
+        const newY = (x - cx) * sinTheta + (y - cy) * cosTheta + cy;
+
+        return { x: newX, y: newY };
+      }
+
+      // Clear the canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Original point
+      const originalX = 400;
+      const originalY = 50;
+      const centerOfRotationX = 200;
+      const centerOfRotationY = 200;
+
+      drawPoint(originalX, originalY, 'blue');
+      drawPoint(centerOfRotationX, centerOfRotationY, 'green');
+
+      // Angle of rotation in radians
+      const angleInRadians = Math.PI / 6;
+
+      // Rotate the point about the arbitrary point
+      const rotatedPoint = rotatePointAboutPoint(originalX, originalY, centerOfRotationX, centerOfRotationY, angleInRadians);
+      drawPoint(rotatedPoint.x, rotatedPoint.y, 'red');
+
+    </script>
+  </body>
+</html>
