@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Scaling a triangle about another point</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Function to draw a triangle
+      function drawTriangle(vertices, color) {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.moveTo(vertices[0].x, vertices[0].y);
+        ctx.lineTo(vertices[1].x, vertices[1].y);
+        ctx.lineTo(vertices[2].x, vertices[2].y);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // Function to scale a point about another point
+      function scalePointAboutPoint(x, y, cx, cy, scaleX, scaleY) {
+        // Translate the point to the new origin
+        const translatedX = x - cx;
+        const translatedY = y - cy;
+
+        // Perform scaling
+        const scaledX = translatedX * scaleX;
+        const scaledY = translatedY * scaleY;
+
+        // Translate the point back to its original position
+        const newX = scaledX + cx;
+        const newY = scaledY + cy;
+
+        return { x: newX, y: newY };
+      }
+
+      // Function to scale a triangle about another point
+      function scaleTriangleAboutPoint(vertices, cx, cy, scaleX, scaleY) {
+        const scaledVertices = vertices.map(vertex =>
+          scalePointAboutPoint(vertex.x, vertex.y, cx, cy, scaleX, scaleY)
+        );
+        return scaledVertices;
+      }
+
+      // Clear the canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'lightgray';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Define the vertices of the original triangle
+      const triangleVertices = [
+        { x: 50, y: 50 },
+        { x: 100, y: 150 },
+        { x: 150, y: 50 },
+      ];
+
+      // Original triangle
+      drawTriangle(triangleVertices, 'blue');
+
+      // Scaling factors
+      const scaleX = .5;
+      const scaleY = 1;
+      
+      // Center of scaling
+      const centerOfScalingX = 100;
+      const centerOfScalingY = 100;
+
+      // Scale the triangle about the center of scaling
+      const scaledTriangle = scaleTriangleAboutPoint(triangleVertices, centerOfScalingX, centerOfScalingY, scaleX, scaleY);
+      drawTriangle(scaledTriangle, 'red');
+    </script>
+  </body>
+</html>
