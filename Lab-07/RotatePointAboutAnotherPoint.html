@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Point Rotation Example</title>
+    <title>Rotate a point about another point.</title>
   </head>
   <body>
     <canvas id="canvas" width="500" height="500"></canvas>
@@ -13,7 +13,7 @@
       function drawPoint(x, y, color) {
         ctx.fillStyle = color;
         ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.arc(x, y, 10, 0, Math.PI * 2);
         ctx.fill();
       }
 
@@ -30,18 +30,21 @@
 
       // Clear the canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'lightgray';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Original point
-      const originalX = 400;
+      const originalX = 150;
       const originalY = 50;
-      const centerOfRotationX = 200;
-      const centerOfRotationY = 200;
-
-      drawPoint(originalX, originalY, 'blue');
+      const centerOfRotationX = 150;
+      const centerOfRotationY = 150;
+      
+      // Green Hocche Jethar Sapaqqe Hobe, Blue Hocche Before Operation
+      drawPoint(originalX, originalY, 'blue'); 
       drawPoint(centerOfRotationX, centerOfRotationY, 'green');
 
       // Angle of rotation in radians
-      const angleInRadians = Math.PI / 6;
+      const angleInRadians = Math.PI / 2;
 
       // Rotate the point about the arbitrary point
       const rotatedPoint = rotatePointAboutPoint(originalX, originalY, centerOfRotationX, centerOfRotationY, angleInRadians);
