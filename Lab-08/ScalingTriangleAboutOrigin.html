@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Triangle Scaling Example</title>
+    <title>Scaling a triangle about origin.</title>
   </head>
   <body>
     <canvas id="canvas" width="500" height="500"></canvas>
@@ -37,6 +37,8 @@
 
       // Clear the canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'lightgray';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Define the vertices of the original triangle
       const triangleVertices = [
